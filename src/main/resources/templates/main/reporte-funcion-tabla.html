@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Compras</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <style>
+        .dataTables_filter {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<button id="exportExcel">Exportar a Excel</button>
+
+<input type="text" id="apellidoInput" placeholder="Apellido">
+<input type="text" id="ciudadInput" placeholder="Ciudad">
+<input type="text" id="montoInput" placeholder="Monto">
+
+<table id="comprasTable" class="display" style="width:100%">
+    <thead>
+    <tr>
+        <th>Cliente ID</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>Ciudad</th>
+        <th>Monto</th>
+        <th>Fecha</th>
+    </tr>
+    </thead>
+</table>
+
+<script>
+    $(document).ready(function() {
+        var table = $('#comprasTable').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "searchDelay": 500,
+        "ajax": {
+            "url": "/api/compras-funcion-tabla",
+            "type": "POST",
+            "contentType": "application/json",
+            "data": function(d) {
+                return JSON.stringify({
+                    apellido: $('#apellidoInput').val(),
+                    ciudad: $('#ciudadInput').val(),
+                    monto: $('#montoInput').val(),
+                    draw: d.draw,
+                    start: d.start,
+                    length: d.length
+                });
+            }
+        },
+        "columns": [
+            {"data": "cliente_id"},
+            {"data": "apellido"},
+            {"data": "email"},
+            {"data": "ciudad"},
+            {"data": "monto"},
+            {"data": "fecha"}
+        ]
+    });
+
+    // Adjunta eventos de escucha a los inputs para realizar la búsqueda dinámica
+    $('#apellidoInput, #ciudadInput, #montoInput').on('keyup', function() {
+        table.ajax.reload();
+    });
+
+    $('#exportExcel').click(function() {
+        var apellido = $('#apellidoInput').val();
+        var ciudad = $('#ciudadInput').val();
+        var monto = $('#montoInput').val();
+        window.location.href = "/api/compras-funcion-tabla/export?apellido=" + encodeURIComponent(apellido) +
+                           "&ciudad=" + encodeURIComponent(ciudad) +
+                           "&monto=" + encodeURIComponent(monto);
+     });
+    });
+</script>
+</body>
+</html>

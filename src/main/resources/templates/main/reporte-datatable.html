@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://datatables.net/media/css/site-examples.css">
+</head>
+<body>
+<table id="comprasProductosTable" class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Ciudad</th>
+        <th>Monto</th>
+        <th>Fecha</th>
+    </tr>
+    </thead>
+</table>
+
+<script th:inline="javascript">
+    $(document).ready(function () {
+        $('#comprasProductosTable').DataTable({
+            "processing": true,
+            "ajax": {
+                "url": "/main/reporte-datatable-json",
+                "type": "GET"
+            },
+
+            "columns": [
+                {"data": "compra.cliente.id"},
+                {"data": "compra.cliente.nombre"},
+                {"data": "compra.cliente.email"},
+                {"data": "compra.cliente.direcciones[0].ciudad"},
+                {"data": "compra.monto"},
+                {"data": "compra.fecha"}
+            ]
+        });
+    });
+</script>
+</body>
+</html>
