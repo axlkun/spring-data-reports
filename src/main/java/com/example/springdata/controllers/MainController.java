@@ -2,13 +2,11 @@ package com.example.springdata.controllers;
 
 import com.example.springdata.models.*;
 import com.example.springdata.repositories.*;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +18,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/main")
-public class ClienteController {
+public class MainController {
 
     @Autowired
     private ClienteRepository cliente_repo;

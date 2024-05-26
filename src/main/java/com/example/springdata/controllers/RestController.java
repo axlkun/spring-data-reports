@@ -1,6 +1,7 @@
 package com.example.springdata.controllers;
 
 import com.example.springdata.models.CompraProducto;
+import com.example.springdata.services.ClienteService;
 import com.example.springdata.services.CompraProductoService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.Row;
@@ -9,10 +10,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,6 +21,9 @@ import java.util.Map;
 public class RestController {
     @Autowired
     private CompraProductoService compraProductoService;
+
+    @Autowired
+    private ClienteService clienteService;
 
     // SERVER SIDE PROCESSING CON BUSQUEDA 1 CAMPO
     @PostMapping("/api/compras")
@@ -182,5 +183,10 @@ public class RestController {
 
         workbook.write(response.getOutputStream());
         workbook.close();
+    }
+
+    @PutMapping("/api/clientes/{id}/email")
+    public Map<String, Object> actualizarEmail(@PathVariable int id, @RequestParam String nuevoEmail) {
+        return clienteService.actualizarEmailCliente(id, nuevoEmail);
     }
 }
