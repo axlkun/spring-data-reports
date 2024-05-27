@@ -74,6 +74,7 @@ public class MainController {
 
     }
 
+    // REPORTE CON BUSQUEDA DINAMICA CON TODOS LOS CAMPOS PERO EN EL CLIENTE
     @GetMapping("/reporte-datatable-json")
     public Object showResponseReporte(@RequestParam(defaultValue = "0") int draw,
                                       @RequestParam(defaultValue = "0") int start,

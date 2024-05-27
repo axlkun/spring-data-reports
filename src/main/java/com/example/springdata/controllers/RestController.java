@@ -25,7 +25,7 @@ public class RestController {
     @Autowired
     private ClienteService clienteService;
 
-    // SERVER SIDE PROCESSING CON BUSQUEDA 1 CAMPO
+    // SERVER SIDE PROCESSING
     @PostMapping("/api/compras")
     public Map<String, Object> getCompras(@RequestBody Map<String, Object> params) {
         int draw = (int) params.get("draw");
@@ -47,6 +47,7 @@ public class RestController {
         return response;
     }
 
+    // SERVER SIDE PROCESSING CON BUSQUEDA 1 CAMPO
     @PostMapping("/api/compras-busqueda")
     public Map<String, Object> getComprasBusqueda(@RequestBody Map<String, Object> params) {
         int draw = (int) params.get("draw");
@@ -68,6 +69,7 @@ public class RestController {
         return response;
     }
 
+    // Busqueda con 3 inputs
     @PostMapping("/api/compras-custom")
     public Map<String, Object> getComprasCustom(@RequestBody Map<String, Object> params) {
         int draw = (int) params.get("draw");
@@ -89,6 +91,7 @@ public class RestController {
         return response;
     }
 
+    // Get funcion tabla
     @PostMapping("/api/compras-funcion-tabla")
     public Map<String, Object> getComprasFuncionTabla(@RequestBody Map<String, Object> params) {
         int draw = (int) params.get("draw");
@@ -110,6 +113,7 @@ public class RestController {
         return response;
     }
 
+    // Export excel busqueda desde el cliente
     @GetMapping("/api/compras/export")
     public void exportToExcel(HttpServletResponse response, @RequestParam String search) throws IOException {
 
@@ -149,6 +153,7 @@ public class RestController {
         workbook.close();
     }
 
+    // Export excel funcion tabla
     @GetMapping("/api/compras-funcion-tabla/export")
     public void exportToExcel(HttpServletResponse response,
                               @RequestParam(required = false) String apellido,
@@ -185,8 +190,18 @@ public class RestController {
         workbook.close();
     }
 
+    // Procedure update email
     @PutMapping("/api/clientes/{id}/email")
     public Map<String, Object> actualizarEmail(@PathVariable int id, @RequestParam String nuevoEmail) {
         return clienteService.actualizarEmailCliente(id, nuevoEmail);
+    }
+
+    // Procedure get compras
+    @GetMapping("/api/get-procedure")
+    public List<Object[]> getFilteredCompras(
+            @RequestParam(required = false) String apellido,
+            @RequestParam(required = false) String ciudad,
+            @RequestParam(required = false) String monto) {
+        return compraProductoService.getFilteredCompras(apellido, ciudad, monto);
     }
 }
