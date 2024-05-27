@@ -1,25 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Compras</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <style>
-        .dataTables_filter {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 </head>
 <body>
-<button id="exportExcel">Exportar a Excel</button>
-
+<!-- Inputs para filtrar -->
 <input type="text" id="apellidoInput" placeholder="Apellido">
 <input type="text" id="ciudadInput" placeholder="Ciudad">
 <input type="text" id="montoInput" placeholder="Monto">
+<button id="exportExcel">Exportar a Excel</button>
 
-<table id="comprasTable" class="display" style="width:100%">
+<!-- Tabla -->
+<table id="comprasTable" class="display">
     <thead>
     <tr>
         <th>Cliente ID</th>
@@ -28,9 +22,18 @@
         <th>Ciudad</th>
         <th>Monto</th>
         <th>Fecha</th>
+        <th>Acciones</th>
     </tr>
     </thead>
 </table>
+
+<!-- Modal para editar email -->
+<div id="editEmailModal" style="display:none;">
+    <label for="editEmailInput">Nuevo Email:</label>
+    <input type="email" id="editEmailInput">
+    <button id="saveEmailButton">Guardar</button>
+    <button id="cancelEditButton">Cancelar</button>
+</div>
 
 <script>
     $(document).ready(function() {
@@ -60,7 +63,11 @@
                 {"data": "email"},
                 {"data": "ciudad"},
                 {"data": "monto"},
-                {"data": "fecha"}
+                {"data": "fecha"},
+                {
+                    "data": null,
+                    "defaultContent": '<button class="edit-email">Editar Email</button>'
+                }
             ]
         });
 
@@ -76,7 +83,38 @@
             window.location.href = "/api/get-procedure/export?apellido=" + encodeURIComponent(apellido) +
                                "&ciudad=" + encodeURIComponent(ciudad) +
                                "&monto=" + encodeURIComponent(monto);
-         });
+        });
+
+        // Evento para el botón de editar email
+        $('#comprasTable tbody').on('click', '.edit-email', function() {
+            var data = table.row($(this).parents('tr')).data();
+            $('#editEmailInput').val(data.email);
+            $('#editEmailModal').data('cliente_id', data.cliente_id).show();
+        });
+
+        // Evento para el botón de guardar email
+        $('#saveEmailButton').click(function() {
+            var nuevoEmail = $('#editEmailInput').val();
+            var clienteId = $('#editEmailModal').data('cliente_id');
+            $.ajax({
+                url: '/api/clientes/' + clienteId + '/email',
+                type: 'PUT',
+                data: { nuevoEmail: nuevoEmail },
+                success: function(response) {
+                    alert(response.mensaje);
+                    table.ajax.reload();
+                    $('#editEmailModal').hide();
+                },
+                error: function(error) {
+                    alert('Error al actualizar el email');
+                }
+            });
+        });
+
+        // Evento para el botón de cancelar
+        $('#cancelEditButton').click(function() {
+            $('#editEmailModal').hide();
+        });
     });
 </script>
 </body>
