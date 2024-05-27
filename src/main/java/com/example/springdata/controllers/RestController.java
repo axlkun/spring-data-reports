@@ -205,7 +205,7 @@ public class RestController {
         return compraProductoService.getFilteredCompras(apellido, ciudad, monto);
     } */
 
-    @GetMapping("/api/get-procedure")
+    /*@GetMapping("/api/get-procedure")
     public Page<Map<String, Object>> getFilteredCompras(
             @RequestParam(required = false) String apellido,
             @RequestParam(required = false) String ciudad,
@@ -213,6 +213,24 @@ public class RestController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return compraProductoService.getFilteredCompras(apellido, ciudad, monto, page, size);
+    }*/
+
+    @GetMapping("/api/get-procedure")
+    public Map<String, Object> getFilteredCompras(
+            @RequestParam(required = false) String apellido,
+            @RequestParam(required = false) String ciudad,
+            @RequestParam(required = false) String monto,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Page<Map<String, Object>> comprasPage = compraProductoService.getFilteredCompras(apellido, ciudad, monto, page, size);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("recordsTotal", comprasPage.getTotalElements());
+        response.put("recordsFiltered", comprasPage.getTotalElements());
+        response.put("data", comprasPage.getContent());
+
+        return response;
     }
 
 
