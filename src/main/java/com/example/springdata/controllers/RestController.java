@@ -197,11 +197,23 @@ public class RestController {
     }
 
     // Procedure get compras
-    @GetMapping("/api/get-procedure")
+    /*@GetMapping("/api/get-procedure")
     public List<Object[]> getFilteredCompras(
             @RequestParam(required = false) String apellido,
             @RequestParam(required = false) String ciudad,
             @RequestParam(required = false) String monto) {
         return compraProductoService.getFilteredCompras(apellido, ciudad, monto);
+    } */
+
+    @GetMapping("/api/get-procedure")
+    public Page<Map<String, Object>> getFilteredCompras(
+            @RequestParam(required = false) String apellido,
+            @RequestParam(required = false) String ciudad,
+            @RequestParam(required = false) String monto,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return compraProductoService.getFilteredCompras(apellido, ciudad, monto, page, size);
     }
+
+
 }

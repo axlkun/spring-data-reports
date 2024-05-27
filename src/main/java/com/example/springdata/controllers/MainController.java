@@ -121,11 +121,19 @@ public class MainController {
 
     }
 
-    // REPORTE SERVER SIDE PROCESSINGn CON BUSQUEDA DINAMICA CUSTOM INPUTS Y FUNCION DE TABLA
+    // REPORTE SERVER SIDE PROCESSING CON BUSQUEDA DINAMICA CUSTOM INPUTS Y FUNCION DE TABLA
     @GetMapping("/reporte-funcion-tabla")
     public Object showReporteFuncionTabla() {
 
         return "main/reporte-funcion-tabla";
+
+    }
+
+    // Get procedure
+    @GetMapping("/reporte-procedure")
+    public Object showReporteProcedure() {
+
+        return "main/reporte-procedure";
 
     }
 

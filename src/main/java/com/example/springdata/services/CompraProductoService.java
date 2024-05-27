@@ -103,7 +103,7 @@ public class CompraProductoService {
     }
 
     // Reporte procedimiento almacenado
-    public List<Object[]> getFilteredCompras(String apellido, String ciudad, String monto) {
+    /*public List<Object[]> getFilteredCompras(String apellido, String ciudad, String monto) {
         // Ejecutar el procedimiento almacenado
         StoredProcedureQuery procedureQuery = entityManager.createStoredProcedureQuery("public.procedure_compras");
 
@@ -120,6 +120,47 @@ public class CompraProductoService {
         // Consultar los resultados de la tabla temporal
         Query query = entityManager.createNativeQuery("SELECT * FROM persistent_compras_result");
         return query.getResultList();
+    }*/
+
+
+    public Page<Map<String, Object>> getFilteredCompras(String apellido, String ciudad, String monto, int page, int size) {
+        // Ejecutar el procedimiento almacenado
+        StoredProcedureQuery procedureQuery = entityManager.createStoredProcedureQuery("public.procedure_compras");
+
+        procedureQuery.registerStoredProcedureParameter("p_apellido", String.class, ParameterMode.IN);
+        procedureQuery.registerStoredProcedureParameter("p_ciudad", String.class, ParameterMode.IN);
+        procedureQuery.registerStoredProcedureParameter("p_monto", String.class, ParameterMode.IN);
+
+        procedureQuery.setParameter("p_apellido", apellido);
+        procedureQuery.setParameter("p_ciudad", ciudad);
+        procedureQuery.setParameter("p_monto", monto);
+
+        procedureQuery.execute();
+
+        // Consultar los resultados de la tabla temporal
+        Query query = entityManager.createNativeQuery("SELECT * FROM persistent_compras_result ORDER BY cliente_id ASC");
+
+        // Obtener el total de resultados
+        int totalResults = query.getResultList().size();
+
+        // Aplicar paginación
+        query.setFirstResult(page * size);
+        query.setMaxResults(size);
+        List<Object[]> results = query.getResultList();
+
+        // Mapear los resultados
+        List<Map<String, Object>> mappedResults = results.stream().map(record -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("cliente_id", record[0]);
+            map.put("apellido", record[1]);
+            map.put("email", record[2]);
+            map.put("ciudad", record[3]);
+            map.put("monto", record[4]);
+            map.put("fecha", record[5]);
+            return map;
+        }).collect(Collectors.toList());
+
+        return new PageImpl<>(mappedResults, PageRequest.of(page, size), totalResults);
     }
 
 }
