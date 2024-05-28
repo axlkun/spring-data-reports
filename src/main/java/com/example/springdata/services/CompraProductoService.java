@@ -141,7 +141,7 @@ public class CompraProductoService {
         procedureQuery.execute();
 
         // Consultar los resultados de la tabla temporal
-        Query query = entityManager.createNativeQuery("SELECT * FROM persistent_compras_result ORDER BY cliente_id ASC");
+        Query query = entityManager.createNativeQuery("SELECT * FROM persistent_compras_result ORDER BY cliente_id DESC");
 
         // Obtener el total de resultados
         int totalResults = query.getResultList().size();
