@@ -10,12 +10,15 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -231,6 +234,20 @@ public class RestController {
         response.put("data", comprasPage.getContent());
 
         return response;
+    }
+
+    @PostMapping("/api/insertar")
+    public Map<String, Object> insertarDatos(
+            @RequestParam String apellido,
+            @RequestParam String email,
+            @RequestParam String ciudad,
+            @RequestParam BigDecimal monto,
+            @RequestParam String fecha) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        java.util.Date utilDate = formatter.parse(fecha);
+        Date sqlDate = new Date(utilDate.getTime()); // Convertir java.util.Date a java.sql.Date
+
+        return compraProductoService.insertarDatos(apellido, email, ciudad, monto, sqlDate);
     }
 
 

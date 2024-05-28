@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.Query;
 import jakarta.persistence.StoredProcedureQuery;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -161,6 +164,36 @@ public class CompraProductoService {
         }).collect(Collectors.toList());
 
         return new PageImpl<>(mappedResults, PageRequest.of(page, size), totalResults);
+    }
+
+    public Map<String, Object> insertarDatos(String apellido, String email, String ciudad, BigDecimal monto, Date fecha) {
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("insertar_datos")
+                .registerStoredProcedureParameter("p_apellido", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_email", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_ciudad", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_monto", BigDecimal.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_fecha", Date.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("cliente_id", Integer.class, ParameterMode.OUT)
+                .registerStoredProcedureParameter("direccion_id", Integer.class, ParameterMode.OUT)
+                .registerStoredProcedureParameter("compra_id", Integer.class, ParameterMode.OUT)
+                .setParameter("p_apellido", apellido)
+                .setParameter("p_email", email)
+                .setParameter("p_ciudad", ciudad)
+                .setParameter("p_monto", monto)
+                .setParameter("p_fecha", fecha);
+
+        storedProcedureQuery.execute();
+
+        int clienteId = (int) storedProcedureQuery.getOutputParameterValue("cliente_id");
+        int direccionId = (int) storedProcedureQuery.getOutputParameterValue("direccion_id");
+        int compraId = (int) storedProcedureQuery.getOutputParameterValue("compra_id");
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("clienteId", clienteId);
+        result.put("direccionId", direccionId);
+        result.put("compraId", compraId);
+
+        return result;
     }
 
 }
