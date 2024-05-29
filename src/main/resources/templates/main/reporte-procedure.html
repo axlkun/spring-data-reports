@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <title>Compras</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <style>
+        .dataTables_filter {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <!-- Inputs para filtrar -->
@@ -11,6 +17,7 @@
 <input type="text" id="ciudadInput" placeholder="Ciudad">
 <input type="text" id="montoInput" placeholder="Monto">
 <button id="exportExcel">Exportar a Excel</button>
+<a href="/main/insertar">Nuevo registro</a>
 
 <!-- Tabla -->
 <table id="comprasTable" class="display">
@@ -80,7 +87,7 @@
             var apellido = $('#apellidoInput').val();
             var ciudad = $('#ciudadInput').val();
             var monto = $('#montoInput').val();
-            window.location.href = "/api/get-procedure/export?apellido=" + encodeURIComponent(apellido) +
+            window.location.href = "/api/compras-funcion-tabla/export?apellido=" + encodeURIComponent(apellido) +
                                "&ciudad=" + encodeURIComponent(ciudad) +
                                "&monto=" + encodeURIComponent(monto);
         });

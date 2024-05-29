@@ -17,6 +17,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -159,7 +161,19 @@ public class CompraProductoService {
             map.put("email", record[2]);
             map.put("ciudad", record[3]);
             map.put("monto", record[4]);
-            map.put("fecha", record[5]);
+            //map.put("fecha", record[5]);
+            // Convertir y formatear la fecha
+            if (record[5] != null) {
+                String fechaOriginal = record[5].toString();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+                LocalDateTime dateTime = LocalDateTime.parse(fechaOriginal, formatter);
+                String formattedDate = dateTime.toLocalDate().toString();
+
+
+                map.put("fecha", formattedDate);
+            } else {
+                map.put("fecha", null);
+            }
             return map;
         }).collect(Collectors.toList());
 
