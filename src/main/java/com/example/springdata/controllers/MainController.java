@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/main")
 public class MainController {
 
     @Autowired
@@ -35,31 +34,31 @@ public class MainController {
     @Autowired
     private CompraProductoRepository compraproducto_repo;
 
-    @GetMapping("/clientes")
+    @GetMapping("/main/clientes")
     @ResponseBody
     public List<Cliente> getClientes() {
         return cliente_repo.findAll(PageRequest.of(0, 50)).getContent();
     }
 
-    @GetMapping("/direcciones")
+    @GetMapping("/main/direcciones")
     @ResponseBody
     public List<Direccion> getDirecciones() {
         return direccion_repo.findAll(PageRequest.of(0, 50)).getContent();
     }
 
-    @GetMapping("/compras")
+    @GetMapping("/main/compras")
     @ResponseBody
     public List<Compra> getCompras() {
         return compra_repo.findAll(PageRequest.of(0, 50)).getContent();
     }
 
-    @GetMapping("/productos")
+    @GetMapping("/main/productos")
     @ResponseBody
     public List<Producto> getProductos() {
         return producto_repo.findAll(PageRequest.of(0, 50)).getContent();
     }
 
-    @GetMapping("/compra-producto")
+    @GetMapping("/main/compra-producto")
     @ResponseBody
     public List<CompraProducto> getCompraProductos() {
         return compraproducto_repo.findAll(PageRequest.of(0, 50)).getContent();
@@ -67,7 +66,7 @@ public class MainController {
 
 
     // REPORTE CON BUSQUEDA DINAMICA CON TODOS LOS CAMPOS PERO EN EL CLIENTE
-    @GetMapping("/reporte-datatable")
+    @GetMapping("/main/reporte-datatable")
     public Object showReporte() {
 
         return "main/reporte-datatable";
@@ -75,7 +74,7 @@ public class MainController {
     }
 
     // REPORTE CON BUSQUEDA DINAMICA CON TODOS LOS CAMPOS PERO EN EL CLIENTE
-    @GetMapping("/reporte-datatable-json")
+    @GetMapping("/main/reporte-datatable-json")
     public Object showResponseReporte(@RequestParam(defaultValue = "0") int draw,
                                       @RequestParam(defaultValue = "0") int start,
                                       @RequestParam(defaultValue = "10000") int length) {
@@ -98,7 +97,7 @@ public class MainController {
     }
 
     // REPORTE SERVER SIDE PROCESSING
-    @GetMapping("/reporte-busqueda")
+    @GetMapping("/main/reporte-busqueda")
     public Object showReporteBusqeuda() {
 
         return "main/reporte-busqueda";
@@ -106,7 +105,7 @@ public class MainController {
     }
 
     // REPORTE SERVER SIDE PROCESSINGn CON BUSQUEDA DINAMICA
-    @GetMapping("/reporte-busqueda-dinamica")
+    @GetMapping("/main/reporte-busqueda-dinamica")
     public Object showReporteBusquedaDinamica() {
 
         return "main/reporte-busqueda-dinamica";
@@ -114,7 +113,7 @@ public class MainController {
     }
 
     // REPORTE SERVER SIDE PROCESSINGn CON BUSQUEDA DINAMICA CUSTOM INPUTS
-    @GetMapping("/reporte-custom-input")
+    @GetMapping("/main/reporte-custom-input")
     public Object showReporteBusquedaCustomInput() {
 
         return "main/reporte-custom-input";
@@ -122,7 +121,7 @@ public class MainController {
     }
 
     // REPORTE SERVER SIDE PROCESSING CON BUSQUEDA DINAMICA CUSTOM INPUTS Y FUNCION DE TABLA
-    @GetMapping("/reporte-funcion-tabla")
+    @GetMapping("/main/reporte-funcion-tabla")
     public Object showReporteFuncionTabla() {
 
         return "main/reporte-funcion-tabla";
@@ -130,7 +129,7 @@ public class MainController {
     }
 
     // Get procedure
-    @GetMapping("/reporte-procedure")
+    @GetMapping("/main/reporte-procedure")
     public Object showReporteProcedure() {
 
         return "main/reporte-procedure";
@@ -138,9 +137,15 @@ public class MainController {
     }
 
     // create view with procedure
-    @GetMapping("/insertar")
+    @GetMapping("/main/insertar")
     public String mostrarFormulario() {
         return "reporte/create";
+    }
+
+    // create view with procedure
+    @GetMapping("/login")
+    public String showLogin() {
+        return "oauth/login";
     }
 
 }
