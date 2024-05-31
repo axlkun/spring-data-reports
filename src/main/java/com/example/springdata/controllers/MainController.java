@@ -133,7 +133,7 @@ public class MainController {
     @GetMapping("/main/reporte-procedure")
     public Object showReporteProcedure() {
 
-        return "main/reporte-procedure";
+        return "reporte/reporte-procedure";
 
     }
 
@@ -146,14 +146,14 @@ public class MainController {
     // login view
     @GetMapping("/login")
     public String showLogin() {
-        return "oauth/login";
+        return "auth/login";
     }
 
     // register view
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
-        return "oauth/register";
+        return "auth/register";
     }
 
 }
