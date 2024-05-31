@@ -143,17 +143,4 @@ public class MainController {
         return "reporte/create";
     }
 
-    // login view
-    @GetMapping("/login")
-    public String showLogin() {
-        return "auth/login";
-    }
-
-    // register view
-    @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new User());
-        return "auth/register";
-    }
-
 }

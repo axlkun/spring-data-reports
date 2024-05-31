@@ -25,15 +25,11 @@ import java.util.*;
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
 
-
     @Autowired
     private CompraProductoService compraProductoService;
 
     @Autowired
     private ClienteService clienteService;
-
-    @Autowired
-    private UserService userService;
 
     // SERVER SIDE PROCESSING
     @PostMapping("/api/compras")
@@ -231,17 +227,6 @@ public class RestController {
         Date sqlDate = new Date(utilDate.getTime()); // Convertir java.util.Date a java.sql.Date
 
         return compraProductoService.insertarDatos(apellido, email, ciudad, monto, sqlDate);
-    }
-
-    // register new user
-    @PostMapping("/register")
-    public RedirectView registerUser(@ModelAttribute("user") User user, BindingResult result) {
-
-        if (result.hasErrors()) {
-            return new RedirectView("/register");
-        }
-        userService.save(user);
-        return new RedirectView("/login");
     }
 
 }

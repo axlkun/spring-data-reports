@@ -13,13 +13,17 @@
 
 <main class="d-flex flex-column justify-content-center align-items-center vh-100">
 <h2 class="mb-3">Login</h2>
+
+    <div th:if="${param.error}" class="alert alert-danger custom-input" role="alert">
+        Error. Por favor, verifique sus credenciales e intente nuevamente.
+    </div>
 <form th:action="@{/login}" method="post">
     <div class="mb-3">
         <label for="email" class="form-label">Email:</label>
         <input type="text" id="email" name="username" class="form-control custom-input"/>
     </div>
     <div class="mb-3">
-        <label for="password" class="form-label">Password:</label>
+        <label for="password" class="form-label">Contraseña:</label>
         <input type="password" id="password" name="password" class="form-control custom-input"/>
     </div>
     <div>
