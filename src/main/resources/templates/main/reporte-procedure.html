@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Compras</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
@@ -10,11 +10,23 @@
         .dataTables_filter {
             display: none;
         }
+
+        .logout-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
     </style>
 </head>
 <body>
-<!-- Inputs para filtrar -->
+<!-- Botón de logout -->
+<div class="logout-container">
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="btn btn-danger">Logout</button>
+    </form>
+</div>
 
+<!-- Inputs para filtrar -->
 <div class="my-3">
     <input type="text" id="apellidoInput" placeholder="Apellido" class="mx-3">
     <input type="text" id="ciudadInput" placeholder="Ciudad" class="mx-3">

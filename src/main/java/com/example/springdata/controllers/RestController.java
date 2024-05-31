@@ -10,12 +10,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -24,7 +20,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 @org.springframework.web.bind.annotation.RestController
@@ -134,11 +129,6 @@ public class RestController {
 
         List<CompraProducto> comprasList = compraProductoService.getAllCompras(search);
 
-        /*if (comprasList.size() > 12000) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El número de registros excede el límite permitido de 12,000");
-            return;
-        }*/
-
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; filename=compras.xlsx");
 
@@ -210,25 +200,6 @@ public class RestController {
     public Map<String, Object> actualizarEmail(@PathVariable int id, @RequestParam String nuevoEmail) {
         return clienteService.actualizarEmailCliente(id, nuevoEmail);
     }
-
-    // Procedure get compras
-    /*@GetMapping("/api/get-procedure")
-    public List<Object[]> getFilteredCompras(
-            @RequestParam(required = false) String apellido,
-            @RequestParam(required = false) String ciudad,
-            @RequestParam(required = false) String monto) {
-        return compraProductoService.getFilteredCompras(apellido, ciudad, monto);
-    } */
-
-    /*@GetMapping("/api/get-procedure")
-    public Page<Map<String, Object>> getFilteredCompras(
-            @RequestParam(required = false) String apellido,
-            @RequestParam(required = false) String ciudad,
-            @RequestParam(required = false) String monto,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return compraProductoService.getFilteredCompras(apellido, ciudad, monto, page, size);
-    }*/
 
     @GetMapping("/api/get-procedure")
     public Map<String, Object> getFilteredCompras(
