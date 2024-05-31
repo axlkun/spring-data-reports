@@ -1,17 +1,24 @@
 package com.example.springdata.controllers;
 
 import com.example.springdata.models.CompraProducto;
+import com.example.springdata.models.User;
 import com.example.springdata.services.ClienteService;
 import com.example.springdata.services.CompraProductoService;
+import com.example.springdata.services.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -22,11 +29,16 @@ import java.util.*;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
+
+
     @Autowired
     private CompraProductoService compraProductoService;
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private UserService userService;
 
     // SERVER SIDE PROCESSING
     @PostMapping("/api/compras")
@@ -250,5 +262,15 @@ public class RestController {
         return compraProductoService.insertarDatos(apellido, email, ciudad, monto, sqlDate);
     }
 
+    // register new user
+    @PostMapping("/register")
+    public RedirectView registerUser(@ModelAttribute("user") User user, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return new RedirectView("/register");
+        }
+        userService.save(user);
+        return new RedirectView("/login");
+    }
 
 }

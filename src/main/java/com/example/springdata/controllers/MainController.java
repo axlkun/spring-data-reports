@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -142,10 +143,17 @@ public class MainController {
         return "reporte/create";
     }
 
-    // create view with procedure
+    // login view
     @GetMapping("/login")
     public String showLogin() {
         return "oauth/login";
+    }
+
+    // register view
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
+        return "oauth/register";
     }
 
 }

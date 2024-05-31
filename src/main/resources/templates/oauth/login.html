@@ -15,8 +15,8 @@
 <h2 class="mb-3">Login</h2>
 <form th:action="@{/login}" method="post">
     <div class="mb-3">
-        <label for="username" class="form-label">Username:</label>
-        <input type="text" id="username" name="username" class="form-control custom-input"/>
+        <label for="email" class="form-label">Email:</label>
+        <input type="text" id="email" name="username" class="form-control custom-input"/>
     </div>
     <div class="mb-3">
         <label for="password" class="form-label">Password:</label>
@@ -25,6 +25,8 @@
     <div>
         <button type="submit" class="btn btn-primary custom-input">Login</button>
     </div>
+
+    <a href="/register">Crear cuenta</a>
 </form>
 </main>
 
