@@ -65,35 +65,11 @@ public class MainController {
         return compraproducto_repo.findAll(PageRequest.of(0, 50)).getContent();
     }
 
-
     // REPORTE CON BUSQUEDA DINAMICA CON TODOS LOS CAMPOS PERO EN EL CLIENTE
     @GetMapping("/main/reporte-datatable")
     public Object showReporte() {
 
         return "main/reporte-datatable";
-
-    }
-
-    // REPORTE CON BUSQUEDA DINAMICA CON TODOS LOS CAMPOS PERO EN EL CLIENTE
-    @GetMapping("/main/reporte-datatable-json")
-    public Object showResponseReporte(@RequestParam(defaultValue = "0") int draw,
-                                      @RequestParam(defaultValue = "0") int start,
-                                      @RequestParam(defaultValue = "10000") int length) {
-
-        // Obtener datos según la búsqueda y la paginación
-        Page<CompraProducto> pageComprasProductos = compraproducto_repo.findAll(PageRequest.of(start / length, length));
-        List<CompraProducto> compras_productos = pageComprasProductos.getContent();
-
-        // Obtener el total de registros sin paginación
-        long total = compraproducto_repo.count();
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("draw", draw);
-        response.put("recordsTotal", total);
-        response.put("recordsFiltered", total);
-        response.put("data", compras_productos);
-
-        return ResponseEntity.ok(response);
 
     }
 

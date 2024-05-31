@@ -2,6 +2,7 @@ package com.example.springdata.controllers;
 
 import com.example.springdata.models.CompraProducto;
 import com.example.springdata.models.User;
+import com.example.springdata.repositories.CompraProductoRepository;
 import com.example.springdata.services.ClienteService;
 import com.example.springdata.services.CompraProductoService;
 import com.example.springdata.services.UserService;
@@ -12,6 +13,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -26,10 +29,36 @@ import java.util.*;
 public class RestController {
 
     @Autowired
+    private CompraProductoRepository compraproducto_repo;
+
+    @Autowired
     private CompraProductoService compraProductoService;
 
     @Autowired
     private ClienteService clienteService;
+
+    // REPORTE CON BUSQUEDA DINAMICA CON TODOS LOS CAMPOS PERO EN EL CLIENTE
+    @GetMapping("/main/reporte-datatable-json")
+    public Object showResponseReporte(@RequestParam(defaultValue = "0") int draw,
+                                      @RequestParam(defaultValue = "0") int start,
+                                      @RequestParam(defaultValue = "10000") int length) {
+
+        // Obtener datos según la búsqueda y la paginación
+        Page<CompraProducto> pageComprasProductos = compraproducto_repo.findAll(PageRequest.of(start / length, length));
+        List<CompraProducto> compras_productos = pageComprasProductos.getContent();
+
+        // Obtener el total de registros sin paginación
+        long total = compraproducto_repo.count();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("draw", draw);
+        response.put("recordsTotal", total);
+        response.put("recordsFiltered", total);
+        response.put("data", compras_productos);
+
+        return ResponseEntity.ok(response);
+
+    }
 
     // SERVER SIDE PROCESSING
     @PostMapping("/api/compras")
