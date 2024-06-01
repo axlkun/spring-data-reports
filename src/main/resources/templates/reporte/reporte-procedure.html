@@ -11,30 +11,46 @@
             display: none;
         }
 
-        .logout-container {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        .table-container{
+            width: 120rem;
+            max-width: 90%;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
-<!-- Botón de logout -->
-<div class="logout-container">
-    <form th:action="@{/logout}" method="post">
-        <button type="submit" class="btn btn-danger">Logout</button>
-    </form>
-</div>
+<nav class="navbar navbar-expand-lg rounded bg-secondary" aria-label="Thirteenth navbar example">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11" aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
+            <a class="navbar-brand col-lg-3 me-0 text-white" href="/main">Spring Data</a>
+            <ul class="navbar-nav col-lg-6 justify-content-lg-center">
+                <li class="nav-item">
+                    <a class="nav-link active text-white" aria-current="page" href="/main">Menu principal</a>
+                </li>
+
+            </ul>
+            <div class="d-lg-flex col-lg-3 justify-content-lg-end">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="table-container">
 <!-- Inputs para filtrar -->
-<div class="my-3">
+<div class="my-3 py-2">
     <input type="text" id="apellidoInput" placeholder="Apellido" class="mx-3">
     <input type="text" id="ciudadInput" placeholder="Ciudad" class="mx-3">
     <input type="text" id="montoInput" placeholder="Monto" class="mx-3">
-    <button id="exportExcel" class="btn btn-secondary">Exportar a Excel</button>
+    <button id="exportExcel" class="btn btn-success">Exportar a Excel</button>
     <a href="/main/insertar" class="btn btn-primary">Nuevo registro</a>
 </div>
-
 
 <!-- Tabla -->
 <table id="comprasTable" class="display">
@@ -51,12 +67,15 @@
     </thead>
 </table>
 
+
 <!-- Modal para editar email -->
-<div id="editEmailModal" style="display:none;">
+<div id="editEmailModal" style="display:none;" class="my-3 py-3">
     <label for="editEmailInput">Nuevo Email:</label>
-    <input type="email" id="editEmailInput">
-    <button id="saveEmailButton">Guardar</button>
-    <button id="cancelEditButton">Cancelar</button>
+    <input type="email" id="editEmailInput" class="mx-3">
+    <button id="saveEmailButton"  class="btn btn-primary">Guardar</button>
+    <button id="cancelEditButton"  class="btn btn-secondary">Cancelar</button>
+</div>
+
 </div>
 
 <script>
