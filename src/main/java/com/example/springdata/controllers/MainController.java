@@ -65,6 +65,14 @@ public class MainController {
         return compraproducto_repo.findAll(PageRequest.of(0, 50)).getContent();
     }
 
+    //menu
+    @GetMapping("/main")
+    public Object showMenu() {
+
+        return "main/main";
+
+    }
+
     // REPORTE CON BUSQUEDA DINAMICA CON TODOS LOS CAMPOS PERO EN EL CLIENTE
     @GetMapping("/main/reporte-datatable")
     public Object showReporte() {
