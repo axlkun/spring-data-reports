@@ -29,18 +29,22 @@ public class SecurityConfig{
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/register").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/main/reporte-procedure", true)
+                        .defaultSuccessUrl("/main", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
+                )
+                .exceptionHandling(exception -> exception
+                        .accessDeniedPage("/main") // Configura la página de acceso denegado
                 )
                 .csrf(csrf -> csrf.disable());
         return http.build();

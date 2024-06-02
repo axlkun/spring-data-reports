@@ -127,4 +127,10 @@ public class MainController {
         return "reporte/create";
     }
 
+    // create view usuarios
+    @GetMapping("/admin/usuarios")
+    public String mostrarUsuarios() {
+        return "main/usuarios";
+    }
+
 }

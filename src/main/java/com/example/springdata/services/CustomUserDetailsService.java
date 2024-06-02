@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,10 +29,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(email);
 
         if (user != null) {
+
+            List<GrantedAuthority> authorities = user.getRoles().stream()
+                    .map(role -> new SimpleGrantedAuthority(role.getNombre()))
+                    .collect(Collectors.toList());
+
             return new org.springframework.security.core.userdetails.User(
                     user.getEmail(),
                     user.getPassword(),
-                    Collections.emptyList()); // Aquí se pasa una lista vacía de autoridades
+                    authorities); // rol
         } else {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
