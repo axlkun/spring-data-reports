@@ -109,7 +109,7 @@ public class MainController {
     @GetMapping("/main/reporte-funcion-tabla")
     public Object showReporteFuncionTabla() {
 
-        return "main/reporte-funcion-tabla";
+        return "reporte/reporte-funcion-tabla";
 
     }
 
@@ -124,13 +124,13 @@ public class MainController {
     // create view with procedure
     @GetMapping("/admin/insertar")
     public String mostrarFormulario() {
-        return "reporte/create";
+        return "admin/create";
     }
 
     // create view usuarios
     @GetMapping("/admin/usuarios")
     public String mostrarUsuarios() {
-        return "main/usuarios";
+        return "admin/usuarios";
     }
 
 }
