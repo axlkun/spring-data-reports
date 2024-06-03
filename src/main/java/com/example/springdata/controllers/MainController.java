@@ -122,7 +122,7 @@ public class MainController {
     }
 
     // create view with procedure
-    @GetMapping("/main/insertar")
+    @GetMapping("/admin/insertar")
     public String mostrarFormulario() {
         return "reporte/create";
     }
