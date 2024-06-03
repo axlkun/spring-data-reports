@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 @Service
 public class UserService{
 
@@ -46,5 +48,9 @@ public class UserService{
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

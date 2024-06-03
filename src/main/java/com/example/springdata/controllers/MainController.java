@@ -2,6 +2,7 @@ package com.example.springdata.controllers;
 
 import com.example.springdata.models.*;
 import com.example.springdata.repositories.*;
+import com.example.springdata.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +35,9 @@ public class MainController {
 
     @Autowired
     private CompraProductoRepository compraproducto_repo;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/main/clientes")
     @ResponseBody
@@ -129,7 +133,9 @@ public class MainController {
 
     // create view usuarios
     @GetMapping("/admin/usuarios")
-    public String mostrarUsuarios() {
+    public String mostrarUsuarios(Model model) {
+        List<User> users = userService.findAll();
+        model.addAttribute("users", users);
         return "admin/usuarios";
     }
 
