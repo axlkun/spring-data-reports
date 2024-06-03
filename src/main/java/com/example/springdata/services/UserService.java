@@ -34,10 +34,10 @@ public class UserService{
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        Rol userRole = rolRepository.findByNombre("USER");
+        Rol userRole = rolRepository.findByNombre("ROLE_USER");
         if (userRole == null) {
             userRole = new Rol();
-            userRole.setNombre("USER");
+            userRole.setNombre("ROLE_USER");
             rolRepository.save(userRole);
         }
         user.getRoles().add(userRole);
